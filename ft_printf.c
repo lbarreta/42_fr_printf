@@ -6,7 +6,7 @@
 /*   By: lbarreta <lbarreta@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 22:19:18 by lbarreta          #+#    #+#             */
-/*   Updated: 2020/10/22 00:55:15 by lbarreta         ###   ########.fr       */
+/*   Updated: 2021/03/16 00:15:56 by lbarreta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int		ft_countunbr(unsigned int n)
 	int i;
 
 	i = 0;
-
 	while (n >= 10)
 	{
 		n = n / 10;
@@ -128,6 +127,78 @@ int		ft_printuint(unsigned int n)
 	return (ft_countunbr(n));
 }
 
+void	ft_puthex_ca(int n)
+{
+	int		val;
+	char	*hex;
+
+	hex = "0123456789ABCDEF";
+
+	if (n < 0)
+		val = 2147483648 + n;
+	else
+		val = n;
+	if (val < 16)
+	{
+		//if (n < 0)
+		//	ft_putchar(&hex [15]);
+		//else
+			ft_putchar(&hex [val % 16]);
+		return;
+	}
+	else
+		ft_puthex_ca(val / 16);
+	ft_putchar(&hex [val % 16]);
+}
+
+void	ft_puthex(int n)
+{
+	int		val;
+	char	*hex;
+
+	hex = "0123456789abcdef";
+
+	if (n < 0)
+		val = 2147483648 + n;
+	else
+		val = n;
+	if (val < 16)
+	{
+		//if (n < 0)
+		//	ft_putchar(&hex [15]);
+		//else
+			ft_putchar(&hex [val % 16]);
+		return;
+	}
+	else
+		ft_puthex(val / 16);
+	ft_putchar(&hex [val % 16]);
+}
+
+int		ft_countx(int n)
+{
+	int i;
+
+	i = 0;
+	while (n >= 16)
+	{
+		n = n / 16;
+		i++;
+	}
+	i++;
+
+	return (i);
+}
+
+int		ft_printx(int n, char conv)
+{
+	if (conv == 'x')
+		ft_puthex(n);
+	else
+		ft_puthex_ca(n);
+	return (ft_countx(n));
+}
+
 int		ft_printf(const char *str, ...)
 {
 	va_list	args;
@@ -150,6 +221,8 @@ int		ft_printf(const char *str, ...)
 				count += ft_printint(va_arg(args, int));
 			else if (str[i] == 'u')
 				count += ft_printuint(va_arg(args, unsigned int));
+			else if (str[i] == 'x' || str[i] == 'X')
+				count += ft_printx(va_arg(args, int), str[i]);
 			i++;
 		}
 		count += ft_putchar(&str[i]);
@@ -163,6 +236,9 @@ int		ft_printf(const char *str, ...)
 
 int		main ()
 {
+	int var_a = 2147483648 - 2584;
+	int var_b = -2584;
+	int *ptr = &var_a;
 
 	printf("%d\n", printf("bbb%cbbb ", 'a'));
 	printf("%d\n\n", ft_printf("bbb%cbbb ", 'a'));
@@ -178,6 +254,21 @@ int		main ()
 
 	printf("%d\n", printf("bbb%ubbb ", -1));
 	printf("%d\n\n", ft_printf("bbb%ubbb ", -1));
+
+	printf("%d\n", printf("bbb%xbbb ", var_a));
+	printf("%d\n\n", ft_printf("bbb%xbbb ", var_a));
+
+	printf("%d\n", printf("bbb%xbbb ", var_b));
+	printf("%d\n\n", ft_printf("bbb%xbbb ", var_b));
+
+	printf("%d\n", printf("bbb%Xbbb ", var_a));
+	printf("%d\n\n", ft_printf("bbb%Xbbb ", var_a));
+
+	printf("%d\n", printf("bbb%Xbbb ", var_b));
+	printf("%d\n\n", ft_printf("bbb%Xbbb ", var_b));
+
+	printf("%d\n", printf("bbb%pbbb ", ptr));
+	//printf("%d\n\n", ft_printf("bbb%pbbb ", ptr));
 
 	return (0);
 }
