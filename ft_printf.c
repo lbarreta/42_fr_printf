@@ -6,7 +6,7 @@
 /*   By: lbarreta <lbarreta@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/30 22:19:18 by lbarreta          #+#    #+#             */
-/*   Updated: 2021/03/16 00:15:56 by lbarreta         ###   ########.fr       */
+/*   Updated: 2021/03/16 00:45:40 by lbarreta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int		ft_countnbr(int n)
 void	ft_putunbr(unsigned int n)
 {
 	char	c;
-
 	if (n < 10)
 	{
 		c = n + '0';
@@ -127,23 +126,17 @@ int		ft_printuint(unsigned int n)
 	return (ft_countunbr(n));
 }
 
-void	ft_puthex_ca(int n)
+void	ft_puthex_ca(unsigned int n)
 {
-	int		val;
-	char	*hex;
+	unsigned int		val;
+	char				*hex;
 
 	hex = "0123456789ABCDEF";
 
-	if (n < 0)
-		val = 2147483648 + n;
-	else
-		val = n;
+	val = n;
 	if (val < 16)
 	{
-		//if (n < 0)
-		//	ft_putchar(&hex [15]);
-		//else
-			ft_putchar(&hex [val % 16]);
+		ft_putchar(&hex [val % 16]);
 		return;
 	}
 	else
@@ -151,23 +144,17 @@ void	ft_puthex_ca(int n)
 	ft_putchar(&hex [val % 16]);
 }
 
-void	ft_puthex(int n)
+void	ft_puthex(unsigned int n)
 {
-	int		val;
-	char	*hex;
+	unsigned int	val;
+	char			*hex;
 
 	hex = "0123456789abcdef";
 
-	if (n < 0)
-		val = 2147483648 + n;
-	else
-		val = n;
+	val = n;
 	if (val < 16)
 	{
-		//if (n < 0)
-		//	ft_putchar(&hex [15]);
-		//else
-			ft_putchar(&hex [val % 16]);
+		ft_putchar(&hex [val % 16]);
 		return;
 	}
 	else
@@ -175,7 +162,7 @@ void	ft_puthex(int n)
 	ft_putchar(&hex [val % 16]);
 }
 
-int		ft_countx(int n)
+int		ft_countx(unsigned int n)
 {
 	int i;
 
@@ -190,7 +177,7 @@ int		ft_countx(int n)
 	return (i);
 }
 
-int		ft_printx(int n, char conv)
+int		ft_printx(unsigned int n, char conv)
 {
 	if (conv == 'x')
 		ft_puthex(n);
@@ -222,7 +209,7 @@ int		ft_printf(const char *str, ...)
 			else if (str[i] == 'u')
 				count += ft_printuint(va_arg(args, unsigned int));
 			else if (str[i] == 'x' || str[i] == 'X')
-				count += ft_printx(va_arg(args, int), str[i]);
+				count += ft_printx(va_arg(args, unsigned int), str[i]);
 			i++;
 		}
 		count += ft_putchar(&str[i]);
@@ -236,7 +223,7 @@ int		ft_printf(const char *str, ...)
 
 int		main ()
 {
-	int var_a = 2147483648 - 2584;
+	int var_a = 2584;
 	int var_b = -2584;
 	int *ptr = &var_a;
 
